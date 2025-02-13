@@ -2,13 +2,13 @@ public class LinkedLists {
 
     public static Node head;
     public static Node tail;
-    
+
     public int size = 1;
 
     public class Node {
         int data;
         Node next;
-        
+
         public Node(int data) {
             this.data = data;
             this.next = null;
@@ -35,8 +35,8 @@ public class LinkedLists {
             head = tail = newNode;
             return;
         }
-        tail.next = newNode;  // Corrected mistake
-        tail = newNode;       // Move tail to the new node
+        tail.next = newNode; // Corrected mistake
+        tail = newNode; // Move tail to the new node
     }
 
     // Printing a LinkedList
@@ -68,7 +68,7 @@ public class LinkedLists {
     }
 
     // Recursive Search Helper
-    public int helper(LinkedLists.Node head, int key) {  // Fixed type
+    public int helper(LinkedLists.Node head, int key) { // Fixed type
         if (head == null) {
             return -1;
         }
@@ -87,14 +87,14 @@ public class LinkedLists {
         return helper(head, key);
     }
 
-    //Reversing linkedlist
+    // Reversing linkedlist
     public void reverse() {
-        Node prev =  null;
+        Node prev = null;
         Node curr = tail = head;
         Node next;
 
-        while(curr != null) {
-            next  = curr.next;
+        while (curr != null) {
+            next = curr.next;
             curr.next = prev;
             prev = curr;
             curr = next;
@@ -103,21 +103,21 @@ public class LinkedLists {
     }
 
     public void deleteNthfromLast(int n) {
-        //calculate size 
+        // calculate size
         int sz = 0;
         Node temp = head;
 
-        while(temp != null) {
+        while (temp != null) {
             temp = temp.next;
             sz++;
         }
 
-        if(n == sz) {
-            head = head.next; //removeFirst
+        if (n == sz) {
+            head = head.next; // removeFirst
             return;
         }
 
-        //reach upto size-n
+        // reach upto size-n
         int i = 1;
         int iToFind = sz - n;
         Node prev = head;
@@ -129,27 +129,75 @@ public class LinkedLists {
         return;
     }
 
+    public Node findMid(Node head) {
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next; // +1
+            fast = fast.next.next; // +2
+        }
+        return slow; // slow is mid
+    }
+
+    public boolean checkPallindrome() {
+        // base case
+        if (head == null || head.next == null) {
+            return true;
+        }
+
+        // step-1 Finding mid
+        Node midNode = findMid(head);
+
+        // step-2 Reverse the second half
+        Node prev = null;
+        Node curr = midNode;
+        Node next;
+
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        Node right = prev; // right part head
+        Node left = head;
+
+        // step-3 If Check left == right part
+        while (right != null) {
+            if (left.data != right.data) {
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         LinkedLists ll = new LinkedLists();
-        ll.addFirst(5);
-        ll.addFirst(4);
-        ll.addFirst(3);
+        ll.addFirst(1);
+        ll.addFirst(2);
+        ll.addFirst(2);
         ll.addFirst(2);
         ll.addFirst(1);
-        ll.addFirst(8);
+        //ll.addFirst(8);
 
         ll.print();
 
-        // System.out.println(ll.itrSearch(3));  // Expected output: 2
+        // System.out.println(ll.itrSearch(3)); // Expected output: 2
         // System.out.println(ll.itrSearch(10)); // Expected output: -1
 
-        // System.out.println(ll.recursiveSearch(3));  // Expected output: 2
+        // System.out.println(ll.recursiveSearch(3)); // Expected output: 2
         // System.out.println(ll.recursiveSearch(10)); // Expected output: -1
 
-        //ll.reverse();
+        // ll.reverse();
+        // ll.print();
+
+        //ll.deleteNthfromLast(3);
         //ll.print();
 
-        ll.deleteNthfromLast(3);
-        ll.print();
+        System.out.println(ll.checkPallindrome());
+        //ll.print();
     }
 }
