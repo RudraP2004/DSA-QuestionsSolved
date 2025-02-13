@@ -174,6 +174,7 @@ public class LinkedLists {
         return true;
     }
 
+    
     public static void main(String[] args) {
         LinkedLists ll = new LinkedLists();
         ll.addFirst(1);
