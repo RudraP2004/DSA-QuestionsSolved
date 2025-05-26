@@ -101,7 +101,84 @@ public class StackUsingLL {
         return null;
     }
 
+    public Node removeDuplicates(Node head) {
+        if (head == null) return null;
+
+        Node current = head;
+        while (current != null && current.next != null) {
+            if (current.data == current.next.data) {
+                current.next = current.next.next; // Skip duplicate
+            } else {
+                current = current.next; // Move to next node
+            }
+        }
+        return head; // Return the modified list
+    }
+
+    public Node removeDuplicatesUnsorted(Node head) {
+        if (head == null) return null;
+
+        Node current = head;
+        Node prev = null;
+        java.util.HashSet<Integer> seen = new java.util.HashSet<>();
+
+        while (current != null) {
+            if (seen.contains(current.data)) {
+                prev.next = current.next; // Remove duplicate
+            } else {
+                seen.add(current.data);
+                prev = current; // Move prev to current
+            }
+            current = current.next; // Move to next node
+        }
+        return head; // Return the modified list
+    }
+
+    public Node insertInSortedLinkedList(Node head, int value) {
+        Node newNode = new Node(value);
+        if (head == null || head.data >= value) {
+            newNode.next = head;
+            return newNode; // New head
+        }
+
+        Node current = head;
+        while (current.next != null && current.next.data < value) {
+            current = current.next; // Find the position to insert
+        }
+        newNode.next = current.next; // Insert the new node
+        current.next = newNode; // Link the previous node to the new node
+        return head; // Return the unchanged head
+    }
+
+    public void deleteNode(int key) {
+        if (head == null) return; // List is empty
+
+        // If the node to be deleted is the head
+        if (head.data == key) {
+            head = head.next;
+            return;
+        }
+
+        Node current = head;
+        Node prev = null;
+
+        // Traverse the list to find the node to delete
+        while (current != null && current.data != key) {
+            prev = current;
+            current = current.next;
+        }
+
+        // If the node was found, unlink it
+        if (current != null) {
+            prev.next = current.next;
+        } else {
+            System.out.println("Node with value " + key + " not found.");
+        }  
+    }
+
+
     public static void main(String[] args) {
+
         StackUsingLL stack = new StackUsingLL();
         Scanner scanner = new Scanner(System.in);
         int choice;
